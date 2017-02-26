@@ -13,6 +13,51 @@
 #endif
 
 #define DICT_FILE "./dictionary/words.txt"
+char **GetRandName(int counts)
+{
+    char line[MAX_LAST_NAME_SIZE];
+    long fileSize;
+    long randFileOffset;
+    FILE *fp;
+    char **nameVector;
+    nameVector=(char **)malloc(sizeof(char**)*counts);
+    for(int icount = 0; icount < counts; icount++) {
+        nameVector[icount]=(char *)malloc(sizeof(line));
+        if(!nameVector[icount]) {
+            printf("Memort error!\n");
+            return NULL;
+        }
+    }
+    if(!nameVector) {
+        printf("Memory error!\n");
+        return NULL;
+    }
+    fp=fopen(DICT_FILE,"r");
+    if(!fp) {
+        printf("File open error!\n");
+        return NULL;
+    }
+    fseek(fp,0,SEEK_END);
+    fileSize=ftell(fp);
+    int i=0;
+    srand(time(NULL));
+    for(i=0; i<counts; i++) {
+        randFileOffset=rand()%(fileSize+1-0);
+        fseek(fp,0,SEEK_SET);
+        fseek(fp,randFileOffset,SEEK_SET);
+        fgets(line,sizeof(line),fp);
+        fgets(line,sizeof(line),fp);
+        int count=0;
+        while(*(line+count++)!='\n') {
+            ;
+        }
+        *(line+count-1)='\0';
+        //printf("Words =%s\n",line);
+        strncpy(nameVector[i],line,sizeof(line));
+    }
+    fclose(fp);
+    return nameVector;
+}
 
 static double diff_in_second(struct timespec t1, struct timespec t2)
 {
@@ -54,7 +99,7 @@ int main(int argc, char *argv[])
     clock_gettime(CLOCK_REALTIME, &start);
 #if OPT
     hashtable *_hTable;
-    _hTable=createHashTable(42737);
+    _hTable=createHashTable(82889);
     assert(_hTable);
     unsigned long counts=0;
     char ch;
@@ -88,41 +133,51 @@ int main(int argc, char *argv[])
     /* close file as soon as possible */
     fclose(fp);
 
-    e = pHead;
 
     /* the givn last name to find */
-    char input[MAX_LAST_NAME_SIZE] = "zyxel";
     e = pHead;
-#if OPT
-    assert(findName(_hTable,input) &&
-           "Did you implement findName() in " IMPL "?");
-    assert(0 == strcmp(findName(_hTable,input)->lastName, "zyxel"));
+    /**
+    	char input[MAX_LAST_NAME_SIZE] = "zyxel";
+    #if OPT
+        assert(findName(_hTable,input) &&
+               "Did you implement findName() in " IMPL "?");
+        assert(0 == strcmp(findName(_hTable,input)->lastName, "zyxel"));
 
-#else
-    assert(findName(input, e) &&
-           "Did you implement findName() in " IMPL "?");
-    assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
-#endif
+    #else
+        assert(findName(input, e) &&
+               "Did you implement findName() in " IMPL "?");
+        assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
+    #endif
+    **/
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif
     /* compute the execution time */
     clock_gettime(CLOCK_REALTIME, &start);
+    int findNameCount=100;
+    char **FindNameVector;
+    FindNameVector=GetRandName(findNameCount);
+    assert(FindNameVector);
+    entry *fEntry;
+    for(int iFind = 0 ; iFind < findNameCount ; iFind++) {
 #if OPT
-    findName(_hTable,input);
+        fEntry=findName(_hTable,FindNameVector[iFind]);
 #else
-    findName(input, e);
+        fEntry=findName(FindNameVector[iFind], e);
 #endif
+        assert(fEntry);
+        assert(0==strcmp(fEntry->lastName,FindNameVector[iFind]));
+    }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time2 = diff_in_second(start, end);
 
     FILE *output = fopen(OUT_FILE, "a");
-    fprintf(output, "append() findName() %lf %lf\n", cpu_time1, cpu_time2);
+    fprintf(output, "append() findName() total %lf %lf %lf\n", cpu_time1, cpu_time2,cpu_time1+cpu_time2);
     fclose(output);
 
     printf("execution time of append() : %lf sec\n", cpu_time1);
     printf("execution time of findName() : %lf sec\n", cpu_time2);
-
+    printf("Total exection time : %lf sec\n",cpu_time1+cpu_time2);
     if (pHead->pNext) free(pHead->pNext);
     free(pHead);
 #if OPT
