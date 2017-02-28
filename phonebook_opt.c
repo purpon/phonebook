@@ -11,7 +11,7 @@ entry *GetHashTable(hashtable *pHtable, const char *lastName);
 
 
 /* FILL YOUR OWN IMPLEMENTATION HERE! */
-entry *findName(hashtable *pHtable, const char lastName[])
+entry *findName (hashtable *pHtable, const char lastName[])
 {
     /* TODO: implement */
     entry *KeyHead=GetHashTable(pHtable, lastName);
@@ -23,7 +23,7 @@ entry *findName(hashtable *pHtable, const char lastName[])
     return NULL;
 }
 
-void append(hashtable *pHtable, const char lastName[], entry *BigMemory, unsigned long pCounts)
+void append (hashtable *pHtable, const char lastName[], entry *BigMemory, unsigned long pCounts)
 {
     if(!pHtable) {
         printf("In append Hashtable is null! \n");
@@ -38,7 +38,7 @@ void append(hashtable *pHtable, const char lastName[], entry *BigMemory, unsigne
 }
 
 
-unsigned int BKDRHash(const char *str)
+unsigned int BKDRHash (const char *str)
 {
 
     unsigned int seed = 131; // 31 131 1313 13131 131313 etc..
@@ -49,7 +49,7 @@ unsigned int BKDRHash(const char *str)
     return (hash & 0x7FFFFFFF);
 }
 
-hashtable *createHashTable(unsigned int hSize)
+hashtable *createHashTable (unsigned int hSize)
 {
     hashtable *hTable;
     hTable=malloc(sizeof(hashtable));
@@ -67,7 +67,7 @@ hashtable *createHashTable(unsigned int hSize)
     return hTable;
 }
 
-int insertHashTable(hashtable *pHtable ,entry *idata)
+int insertHashTable (hashtable *pHtable ,entry *idata)
 {
     unsigned int key;
     entry **head;
@@ -86,7 +86,7 @@ int insertHashTable(hashtable *pHtable ,entry *idata)
     return 0;
 }
 
-entry *GetHashTable(hashtable *pHtable, const char *lastName)
+entry *GetHashTable (hashtable *pHtable, const char *lastName)
 {
     if(!pHtable) {
         return 0;
