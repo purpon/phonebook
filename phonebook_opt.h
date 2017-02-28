@@ -22,7 +22,7 @@ typedef struct __PHONE_BOOK_DETAILED {
     char city[16];
     char state[2];
     char zip[5];
-} detailed;
+} phoneBookDetailed;
 
 typedef struct HASHTABLE {
     struct __PHONE_BOOK_ENTRY **hTable;
