@@ -13,7 +13,7 @@
 #endif
 
 #define DICT_FILE "./dictionary/words.txt"
-char **GetRandName(int counts)
+char **GetRandName (int counts)
 {
     char line[MAX_LAST_NAME_SIZE];
     long fileSize;
@@ -136,19 +136,6 @@ int main(int argc, char *argv[])
 
     /* the givn last name to find */
     e = pHead;
-    /**
-    	char input[MAX_LAST_NAME_SIZE] = "zyxel";
-    #if OPT
-        assert(findName(_hTable,input) &&
-               "Did you implement findName() in " IMPL "?");
-        assert(0 == strcmp(findName(_hTable,input)->lastName, "zyxel"));
-
-    #else
-        assert(findName(input, e) &&
-               "Did you implement findName() in " IMPL "?");
-        assert(0 == strcmp(findName(input, e)->lastName, "zyxel"));
-    #endif
-    **/
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
 #endif

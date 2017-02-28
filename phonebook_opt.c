@@ -5,8 +5,8 @@
 #include "phonebook_opt.h"
 
 unsigned int HashTableSize;
-unsigned int BKDRHash(const char *str)__attribute__((always_inline));
-int insertHashTable(hashtable *pHtable, entry *idata)__attribute__((always_inline));
+unsigned int BKDRHash(const char *str);
+int insertHashTable(hashtable *pHtable, entry *idata);
 entry *GetHashTable(hashtable *pHtable, const char *lastName);
 
 
