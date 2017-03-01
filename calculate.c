@@ -11,7 +11,7 @@ int main(void)
     }
     int i = 0;
     char append[50], find[50];
-    double orig_sum_a = 0.0, orig_sum_f = 0.0, orig_a, orig_f;
+    double orig_sum_a = 0.0, orig_sum_f = 0.0,orig_a, orig_f;
     for (i = 0; i < 100; i++) {
         if (feof(fp)) {
             printf("ERROR: You need 100 datum instead of %d\n", i);
@@ -32,7 +32,7 @@ int main(void)
             exit(0);
         }
     }
-    double opt_sum_a = 0.0, opt_sum_f = 0.0, opt_a, opt_f;
+    double opt_sum_a = 0.0, opt_sum_f = 0.0,opt_a, opt_f;
     for (i = 0; i < 100; i++) {
         if (feof(fp)) {
             printf("ERROR: You need 100 datum instead of %d\n", i);
@@ -44,7 +44,8 @@ int main(void)
         opt_sum_f += opt_f;
     }
     fprintf(output, "append() %lf %lf\n",orig_sum_a / 100.0, opt_sum_a / 100.0);
-    fprintf(output, "findName() %lf %lf", orig_sum_f / 100.0, opt_sum_f / 100.0);
+    fprintf(output, "findName() %lf %lf\n", orig_sum_f / 100.0, opt_sum_f / 100.0);
+    fprintf(output,"Total: %lf %lf\n",((orig_sum_a+orig_sum_f) / 200.0), ((opt_sum_a+opt_sum_f) / 200.0) );
     fclose(output);
     fclose(fp);
     return 0;
